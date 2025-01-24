@@ -1,9 +1,9 @@
 "use client"
-import  { useState } from 'react';
-import { Home, TicketCheck, PlusCircle, Wallet } from 'lucide-react';
+import { useState } from 'react';
+import { Home, TicketCheck, PlusCircle, Wallet, User } from 'lucide-react';
 import Link from 'next/link';
 
-const Header = () => {
+const CyberHeader = () => {
   const [isWalletConnected, setIsWalletConnected] = useState(false);
 
   const handleWalletConnect = () => {
@@ -12,84 +12,93 @@ const Header = () => {
   };
 
   return (
-    <nav className="bg-white shadow-md fixed top-0 left-0 right-0 z-50">
+    <nav className="bg-black/90 border-b border-cyan-500/30 shadow-[0_0_15px_rgba(34,211,238,0.4)] top-0 left-0 right-0 z-50 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           {/* Logo */}
           <div className="flex items-center">
             <div className="flex-shrink-0 flex items-center">
-              <span className="text-2xl font-bold text-blue-600">NFTicket</span>
+              <span className="text-2xl font-bold text-cyan-400 drop-shadow-[0_0_5px_rgba(34,211,238,0.7)] animate-pulse">
+                NFTicket
+              </span>
             </div>
           </div>
-
+          
           {/* Navigation Links */}
           <div className="hidden md:flex space-x-8">
-            <Link href="/" 
-              className="text-gray-600 hover:text-blue-600 flex items-center space-x-2">
-              <Home className="h-5 w-5" />
-              <span>Home</span>
-            </Link>
-            <Link href='/event-listing'
-              className="text-gray-600 hover:text-blue-600 flex items-center space-x-2"
-            >
-              <TicketCheck className="h-5 w-5" />
-              <span>Events</span>
-            </Link>
-            <Link href='/create-event'
-              className="text-gray-600 hover:text-blue-600 flex items-center space-x-2"
-            >
-              <PlusCircle className="h-5 w-5" />
-              <span>Create Event</span>
+            {[
+              { href: '/', icon: Home, label: 'Home' },
+              { href: '/event-listing', icon: TicketCheck, label: 'Events' },
+              { href: '/create-event', icon: PlusCircle, label: 'Create Event' }
+            ].map(({ href, icon: Icon, label }) => (
+              <Link 
+                key={href}
+                href={href}
+                className="text-cyan-300 hover:text-cyan-100 flex items-center space-x-2 
+                           hover:drop-shadow-[0_0_5px_rgba(34,211,238,0.7)] transition-all duration-300"
+              >
+                <Icon className="h-5 w-5" />
+                <span>{label}</span>
               </Link>
+            ))}
           </div>
-
+          
           {/* Wallet Connection */}
-          <div>
-            <button 
+          <div className='flex items-center space-x-4'>
+            <button
               onClick={handleWalletConnect}
               className={`
-                flex items-center space-x-2 px-4 py-2 rounded-md 
-                ${isWalletConnected 
-                  ? 'bg-green-100 text-green-800' 
-                  : 'bg-blue-600 text-white hover:bg-blue-700'}
+                flex items-center space-x-2 px-4 py-2 rounded-md
+                transition-all duration-300
+                ${isWalletConnected
+                  ? 'bg-cyan-900/50 text-cyan-300 border border-cyan-500/30'
+                  : 'bg-cyan-600/30 text-cyan-200 hover:bg-cyan-600/50 border border-cyan-500/30'}
+                hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]
               `}
             >
               <Wallet className="h-5 w-5" />
-              <span>
-                {isWalletConnected ? 'Connected' : 'Connect Wallet'}
-              </span>
+              <span>{isWalletConnected ? 'Connected' : 'Connect Wallet'}</span>
             </button>
+            
+            <Link 
+              href='/profile'
+              className="text-cyan-300 hover:text-cyan-100 flex items-center space-x-2
+                         hover:drop-shadow-[0_0_5px_rgba(34,211,238,0.7)] transition-all duration-300"
+            >
+              <User className="h-5 w-5" />
+              <span>Profile</span>
+            </Link>
           </div>
-
+          
           {/* Mobile Menu Button */}
           <div className="-mr-2 flex md:hidden">
-            <button 
-              type="button" 
-              className="bg-gray-100 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-200"
+            <button
+              type="button"
+              className="bg-cyan-900/30 inline-flex items-center justify-center p-2 rounded-md 
+                         text-cyan-300 hover:text-cyan-100 hover:bg-cyan-900/50
+                         hover:drop-shadow-[0_0_5px_rgba(34,211,238,0.7)] transition-all duration-300"
             >
               <span className="sr-only">Open main menu</span>
-              {/* Hamburger icon */}
-              <svg 
-                className="h-6 w-6" 
-                xmlns="http://www.w3.org/2000/svg" 
-                fill="none" 
-                viewBox="0 0 24 24" 
+              <svg
+                className="h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
                 stroke="currentColor"
               >
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth="2" 
-                  d="M4 6h16M4 12h16M4 18h16" 
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16M4 18h16"
                 />
               </svg>
             </button>
           </div>
         </div>
       </div>
-
     </nav>
   );
 };
 
-export default Header;
+export default CyberHeader;
