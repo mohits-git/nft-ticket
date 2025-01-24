@@ -4,7 +4,7 @@ interface Props {
 
 }
 
-export function Page({}: Props) {
+export default function Page({}: Props) {
     return (
         <>
             Create Event Page
