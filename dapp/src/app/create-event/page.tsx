@@ -13,6 +13,7 @@ interface EventDetails {
   image: File | null;
 }
 
+
 const EventForm: React.FC = () => {
   const [eventDetails, setEventDetails] = useState<EventDetails>({
     name: '',
