@@ -61,7 +61,6 @@ const EventGrid: React.FC = () => {
     const fetchEvents = async () => {
       try {
         const mockEvents: Event[] = eventMockData
-
         setEvents(mockEvents);
         setIsLoading(false);
       } catch (error) {

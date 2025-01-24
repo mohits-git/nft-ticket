@@ -33,20 +33,20 @@ const TicketCard: React.FC<{ ticket: TicketNFT; onResell?: (tokenId: string) => 
           className="object-cover brightness-75 hover:brightness-100 transition-all"
         />
       </div>
-      
+
       <div className="p-4 space-y-2 text-gray-200">
         <h3 className="text-xl font-bold text-pink-400">{ticket.eventName}</h3>
-        
+
         <div className="flex items-center space-x-2 text-gray-400">
           <Calendar className="w-5 h-5 text-blue-400" />
           <span>{new Date(ticket.eventDate).toLocaleString()}</span>
         </div>
-        
+
         <div className="flex items-center space-x-2 text-gray-400">
           <MapPin className="w-5 h-5 text-green-400" />
           <span>{ticket.location}</span>
         </div>
-        
+
         {ticket.perks && ticket.perks.length > 0 && (
           <div className="mt-2">
             <h4 className="text-sm font-semibold text-gray-300">Ticket Perks:</h4>
@@ -57,7 +57,7 @@ const TicketCard: React.FC<{ ticket: TicketNFT; onResell?: (tokenId: string) => 
             </ul>
           </div>
         )}
-        
+
         {onResell && (
           <button 
             onClick={() => onResell(ticket.tokenId)}

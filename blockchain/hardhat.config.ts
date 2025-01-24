@@ -6,6 +6,12 @@ import '@nomicfoundation/hardhat-chai-matchers'
 
 const config: HardhatUserConfig = {
   solidity: "0.8.28",
+  networks: {
+    polygon_amoy: {
+      url: "https://polygon-amoy.g.alchemy.com/v2/xpPc6MK390j2YGn1pG-Ad2ORtgQHTuPI",
+      accounts: [process.env.PRIVATE_KEY || '']
+    }
+  }
 };
 
 export default config;
