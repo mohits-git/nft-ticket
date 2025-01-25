@@ -2,13 +2,18 @@
 import { useState } from 'react';
 import { Home, TicketCheck, PlusCircle, Wallet, User } from 'lucide-react';
 import Link from 'next/link';
+import { connectWallet } from '@/wallet/connect';
 
 const CyberHeader = () => {
   const [isWalletConnected, setIsWalletConnected] = useState(false);
 
-  const handleWalletConnect = () => {
-    // TODO: Implement wallet connection logic
-    setIsWalletConnected(true);
+  const handleWalletConnect = async () => {
+    try {
+      await connectWallet();
+      setIsWalletConnected(true);
+    } catch (error) {
+      console.error('Error connecting wallet:', error);
+    }
   };
 
   return (
@@ -23,7 +28,7 @@ const CyberHeader = () => {
               </span>
             </div>
           </div>
-          
+
           {/* Navigation Links */}
           <div className="hidden md:flex space-x-8">
             {[
@@ -31,7 +36,7 @@ const CyberHeader = () => {
               { href: '/event-listing', icon: TicketCheck, label: 'Events' },
               { href: '/create-event', icon: PlusCircle, label: 'Create Event' }
             ].map(({ href, icon: Icon, label }) => (
-              <Link 
+              <Link
                 key={href}
                 href={href}
                 className="text-cyan-300 hover:text-cyan-100 flex items-center space-x-2 
@@ -42,7 +47,7 @@ const CyberHeader = () => {
               </Link>
             ))}
           </div>
-          
+
           {/* Wallet Connection */}
           <div className='flex items-center space-x-4'>
             <button
@@ -55,12 +60,13 @@ const CyberHeader = () => {
                   : 'bg-cyan-600/30 text-cyan-200 hover:bg-cyan-600/50 border border-cyan-500/30'}
                 hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]
               `}
+              disabled={isWalletConnected}
             >
               <Wallet className="h-5 w-5" />
               <span>{isWalletConnected ? 'Connected' : 'Connect Wallet'}</span>
             </button>
-            
-            <Link 
+
+            <Link
               href='/profile'
               className="text-cyan-300 hover:text-cyan-100 flex items-center space-x-2
                          hover:drop-shadow-[0_0_5px_rgba(34,211,238,0.7)] transition-all duration-300"
@@ -69,7 +75,7 @@ const CyberHeader = () => {
               <span>Profile</span>
             </Link>
           </div>
-          
+
           {/* Mobile Menu Button */}
           <div className="-mr-2 flex md:hidden">
             <button
