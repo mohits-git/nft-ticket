@@ -10,7 +10,7 @@ function getEth(): EthereumProvider {
   return eth;
 }
 
-async function hasAccounts(): Promise<boolean> {
+export async function hasAccounts(): Promise<boolean> {
   const eth = getEth();
   const accounts = (await eth.request({ method: "eth_accounts" })) as string[];
   return accounts && accounts.length > 0;

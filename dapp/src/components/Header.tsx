@@ -1,8 +1,8 @@
 "use client"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Home, TicketCheck, PlusCircle, Wallet, User } from 'lucide-react';
 import Link from 'next/link';
-import { connectWallet } from '@/wallet/connect';
+import { connectWallet, hasAccounts } from '@/wallet/connect';
 import { useAuth } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 
@@ -13,7 +13,7 @@ const CyberHeader = () => {
 
   const handleWalletConnect = async () => {
     try {
-      if(!auth.isSignedIn) {
+      if (!auth.isSignedIn) {
         router.push('/sign-in');
         return;
       }
@@ -23,6 +23,16 @@ const CyberHeader = () => {
       console.error('Error connecting wallet:', error);
     }
   };
+
+  useEffect(() => {
+    if (!auth.isSignedIn) return;
+    hasAccounts().then((checkAccounts) => {
+      if (!checkAccounts) return;
+      setIsWalletConnected(true);
+    }).catch((error) => {
+      console.error('Error checking accounts:', error);
+    });
+  }, [auth.isSignedIn]);
 
   return (
     <nav className="bg-black/90 border-b border-cyan-500/30 shadow-[0_0_15px_rgba(34,211,238,0.4)] top-0 left-0 right-0 z-50 relative">
