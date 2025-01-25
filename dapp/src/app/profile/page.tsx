@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from "react";
 import Image from "next/image";
-import {userMockData} from '../../utils/mockUserData'
+import { userMockData } from '../../utils/mockUserData'
 import {
   ClerkProvider,
   SignInButton,
@@ -9,11 +9,11 @@ import {
   SignedOut,
   UserButton
 } from '@clerk/nextjs'
-import { 
-  User as UserIcon, 
-  Mail, 
-  Wallet, 
-  Calendar, 
+import {
+  User as UserIcon,
+  Mail,
+  Wallet,
+  Calendar,
   ArrowRight
 } from 'lucide-react';
 import Link from "next/link";
@@ -64,12 +64,12 @@ const Profile: React.FC<ProfileProps> = ({ user = userMockData }) => {
           </div>
           <div className="align-right">
 
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
+            <SignedOut>
+              <SignInButton />
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
           </div>
         </div>
 
@@ -97,8 +97,8 @@ const Profile: React.FC<ProfileProps> = ({ user = userMockData }) => {
                 key={tab}
                 onClick={() => setActiveTicketTab(tab)}
                 className={`px-6 py-2 mx-2 rounded-full uppercase tracking-wider text-sm
-                  ${activeTicketTab === tab 
-                    ? 'bg-pink-600 text-white' 
+                  ${activeTicketTab === tab
+                    ? 'bg-pink-600 text-white'
                     : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}
                   transition duration-300`}
               >
@@ -114,8 +114,8 @@ const Profile: React.FC<ProfileProps> = ({ user = userMockData }) => {
               </div>
             ) : (
               filteredTickets.map((ticket) => (
-                <div 
-                  key={ticket.id} 
+                <div
+                  key={ticket.id}
                   className="flex items-center bg-gray-800 rounded-lg p-4 
                   hover:bg-gray-700 transition duration-300"
                 >
@@ -135,10 +135,10 @@ const Profile: React.FC<ProfileProps> = ({ user = userMockData }) => {
                     <button className="bg-blue-500 text-white px-4 py-2 rounded-lg 
                         hover:bg-blue-600 transition duration-300 
                         flex items-center">
-                        View Details <ArrowRight className="ml-2" size={18} />
+                      View Details <ArrowRight className="ml-2" size={18} />
                     </button>
                   </Link>
-                  
+
                 </div>
               ))
             )}

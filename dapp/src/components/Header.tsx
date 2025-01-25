@@ -1,15 +1,38 @@
 "use client"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Home, TicketCheck, PlusCircle, Wallet, User } from 'lucide-react';
 import Link from 'next/link';
+import { connectWallet, hasAccounts } from '@/wallet/connect';
+import { useAuth } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
 
 const CyberHeader = () => {
   const [isWalletConnected, setIsWalletConnected] = useState(false);
+  const auth = useAuth();
+  const router = useRouter();
 
-  const handleWalletConnect = () => {
-    // TODO: Implement wallet connection logic
-    setIsWalletConnected(true);
+  const handleWalletConnect = async () => {
+    try {
+      if (!auth.isSignedIn) {
+        router.push('/sign-in');
+        return;
+      }
+      await connectWallet();
+      setIsWalletConnected(true);
+    } catch (error) {
+      console.error('Error connecting wallet:', error);
+    }
   };
+
+  useEffect(() => {
+    if (!auth.isSignedIn) return;
+    hasAccounts().then((checkAccounts) => {
+      if (!checkAccounts) return;
+      setIsWalletConnected(true);
+    }).catch((error) => {
+      console.error('Error checking accounts:', error);
+    });
+  }, [auth.isSignedIn]);
 
   return (
     <nav className="bg-black/90 border-b border-cyan-500/30 shadow-[0_0_15px_rgba(34,211,238,0.4)] top-0 left-0 right-0 z-50 relative">
@@ -23,7 +46,7 @@ const CyberHeader = () => {
               </span>
             </div>
           </div>
-          
+
           {/* Navigation Links */}
           <div className="hidden md:flex space-x-8">
             {[
@@ -31,7 +54,7 @@ const CyberHeader = () => {
               { href: '/event-listing', icon: TicketCheck, label: 'Events' },
               { href: '/create-event', icon: PlusCircle, label: 'Create Event' }
             ].map(({ href, icon: Icon, label }) => (
-              <Link 
+              <Link
                 key={href}
                 href={href}
                 className="text-cyan-300 hover:text-cyan-100 flex items-center space-x-2 
@@ -42,7 +65,7 @@ const CyberHeader = () => {
               </Link>
             ))}
           </div>
-          
+
           {/* Wallet Connection */}
           <div className='flex items-center space-x-4'>
             <button
@@ -55,12 +78,13 @@ const CyberHeader = () => {
                   : 'bg-cyan-600/30 text-cyan-200 hover:bg-cyan-600/50 border border-cyan-500/30'}
                 hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]
               `}
+              disabled={isWalletConnected}
             >
               <Wallet className="h-5 w-5" />
               <span>{isWalletConnected ? 'Connected' : 'Connect Wallet'}</span>
             </button>
-            
-            <Link 
+
+            <Link
               href='/profile'
               className="text-cyan-300 hover:text-cyan-100 flex items-center space-x-2
                          hover:drop-shadow-[0_0_5px_rgba(34,211,238,0.7)] transition-all duration-300"
@@ -69,7 +93,7 @@ const CyberHeader = () => {
               <span>Profile</span>
             </Link>
           </div>
-          
+
           {/* Mobile Menu Button */}
           <div className="-mr-2 flex md:hidden">
             <button
