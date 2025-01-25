@@ -28,7 +28,7 @@ export const eventMockData: Event[] = [
     },
     {
         id: '3',
-        name: '"Art Exhibition',
+        name: 'Art Exhibition',
         date: '2024-09-20',
         location: 'Convention Center, San Francisco',
         ticketPrice: 1.2,

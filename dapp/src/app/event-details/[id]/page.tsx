@@ -8,7 +8,7 @@ import {
   Clock, 
   Users,
 } from 'lucide-react';
-import { eventMockData } from '../../../utils/Events';
+import { eventMockData } from '../../../utils/mockEventsData';
 import { useParams } from 'next/navigation';
 interface EventDetailProps {
   params: {

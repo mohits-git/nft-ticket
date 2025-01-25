@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from "react";
 import Image from "next/image";
-import {userMockData} from '../../utils/tickets'
+import {userMockData} from '../../utils/mockUserData'
 import {
   ClerkProvider,
   SignInButton,
@@ -18,23 +18,9 @@ import {
 } from 'lucide-react';
 import Link from "next/link";
 
-interface Ticket {
-  id: string;
-  eventName: string;
-  eventDate: string;
-  status: 'upcoming' | 'expired';
-  ticketImage?: string;
-}
 
-interface User {
-  name: string;
-  email?: string;
-  walletAddress: string;
-  profilePicture?: string;
-  totalTickets: number;
-  joinedDate: string;
-  tickets: Ticket[];
-}
+import { Ticket } from "@/utils/types";
+import { User } from "@/utils/types";
 
 interface ProfileProps {
   user?: User;
@@ -145,7 +131,7 @@ const Profile: React.FC<ProfileProps> = ({ user = userMockData }) => {
                     <h3 className="text-xl font-bold text-cyan-300">{ticket.eventName}</h3>
                     <p className="text-gray-400">{new Date(ticket.eventDate).toDateString()}</p>
                   </div>
-                  <Link href={`/event-details/${ticket.id}`}>
+                  <Link href={`/ticket-details/${ticket.id}`}>
                     <button className="bg-blue-500 text-white px-4 py-2 rounded-lg 
                         hover:bg-blue-600 transition duration-300 
                         flex items-center">

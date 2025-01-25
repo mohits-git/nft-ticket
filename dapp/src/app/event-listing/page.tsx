@@ -2,10 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Calendar, MapPin, DollarSign } from 'lucide-react';
-import {eventMockData} from '../../utils/Events'
+import {eventMockData} from '../../utils/mockEventsData'
 import BuyTicket from '@/components/BuyTicket';
 // Event interface to define event structure
 import { Event } from '@/utils/types';
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 
 // EventCard Component
 const EventCard: React.FC<{ event: Event }> = ({ 
@@ -45,8 +47,13 @@ const EventCard: React.FC<{ event: Event }> = ({
         <div className="text-sm text-gray-500">
           Available Tickets: {event.availableTickets}/{event.totalTickets}
         </div>
-        <BuyTicket event={event}  />
-        
+        <Link href={`/event-details/${event.id}`}>
+                    <button className="w-full bg-pink-600 text-white py-3 rounded-lg 
+                  hover:bg-pink-700 transition-colors 
+                  disabled:opacity-50 flex items-center justify-center">
+                        View Details <ArrowRight className="ml-2" size={18} />
+                    </button>
+        </Link>        
       </div>
     </div>
   );

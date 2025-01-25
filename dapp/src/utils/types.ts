@@ -1,5 +1,6 @@
 export type Ticket = {
     id: string;
+    eventId: string;
     eventName: string;
     eventDate: string;
     status: 'upcoming' | 'expired' | 'used';
