@@ -48,3 +48,9 @@ export async function connectWallet() {
     throw error;
   }
 }
+
+export async function getWalletAddress() {
+  const eth = getEth();
+  const accounts = (await eth.request({ method: "eth_accounts" })) as string[];
+  return accounts[0];
+}
