@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { connectWallet, hasAccounts } from '@/wallet/connect';
 import { useAuth } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 const CyberHeader = () => {
   const [isWalletConnected, setIsWalletConnected] = useState(false);
@@ -20,20 +21,22 @@ const CyberHeader = () => {
       await connectWallet();
       setIsWalletConnected(true);
     } catch (error) {
-      console.error('Error connecting wallet:', error);
-      // TODO: add toast
+      // @ts-expect-error invalid type
+      toast.error('Failed to connect wallet' + ' ' + error.message);
     }
   };
 
   useEffect(() => {
     if (!auth.isSignedIn) return;
-    hasAccounts().then((checkAccounts) => {
-      if (!checkAccounts) return;
-      setIsWalletConnected(true);
-    }).catch((error) => {
-      console.error('Error checking accounts:', error);
-      // TODO: add toast
-    });
+    (async () => {
+      try {
+        const hasA = await hasAccounts();
+        setIsWalletConnected(hasA);
+      } catch (error) {
+        // @ts-expect-error invalid type
+        toast.error('Install and connect your metamask' + ' ' + error.message);
+      }
+    })()
   }, [auth.isSignedIn]);
 
   return (

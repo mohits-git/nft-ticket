@@ -11,9 +11,13 @@ function getEth(): EthereumProvider {
 }
 
 export async function hasAccounts(): Promise<boolean> {
-  const eth = getEth();
-  const accounts = (await eth.request({ method: "eth_accounts" })) as string[];
-  return accounts && accounts.length > 0;
+  try {
+    const eth = getEth();
+    const accounts = (await eth.request({ method: "eth_accounts" })) as string[];
+    return accounts && accounts.length > 0;
+  } catch (error) {
+    throw error;
+  }
 }
 
 async function requestAccounts(): Promise<boolean> {
@@ -41,7 +45,6 @@ export async function connectWallet() {
 
     return { provider, signer, walletAddress };
   } catch (error) {
-    console.error("Error connecting wallet:", error);
     throw error;
   }
 }
