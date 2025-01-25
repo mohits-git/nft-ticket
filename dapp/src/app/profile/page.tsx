@@ -2,6 +2,13 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import {userMockData} from '../../utils/tickets'
+import {
+  ClerkProvider,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton
+} from '@clerk/nextjs'
 import { 
   User as UserIcon, 
   Mail, 
@@ -68,6 +75,15 @@ const Profile: React.FC<ProfileProps> = ({ user = userMockData }) => {
               <Wallet className="mr-2 text-blue-400" />
               <span className="text-sm">{walletAddress}</span>
             </div>
+          </div>
+          <div className="align-right">
+
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
           </div>
         </div>
 

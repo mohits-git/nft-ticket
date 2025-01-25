@@ -5,11 +5,9 @@ import {
   ShieldCheck, 
   Globe, 
   Rocket, 
-  Lock, 
-  Users, 
+  Lock,
   ArrowRight,
   Target,
-  Award,
   Zap
 } from 'lucide-react';
 import Link from 'next/link';
@@ -189,7 +187,7 @@ export default function Home() {
             NFTicket offers an unprecedented digital experience that transcends traditional boundaries.
           </p>
           <div className="flex justify-center gap-6">
-            <Link href="/signup" className="bg-pink-600 text-white px-10 py-4 rounded-xl 
+            <Link href="/sign-in" className="bg-pink-600 text-white px-10 py-4 rounded-xl 
               flex items-center gap-3
               hover:bg-pink-700 transition duration-300
               transform hover:-translate-y-2 hover:scale-110
