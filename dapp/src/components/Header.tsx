@@ -21,6 +21,7 @@ const CyberHeader = () => {
       setIsWalletConnected(true);
     } catch (error) {
       console.error('Error connecting wallet:', error);
+      // TODO: add toast
     }
   };
 
@@ -31,6 +32,7 @@ const CyberHeader = () => {
       setIsWalletConnected(true);
     }).catch((error) => {
       console.error('Error checking accounts:', error);
+      // TODO: add toast
     });
   }, [auth.isSignedIn]);
 
