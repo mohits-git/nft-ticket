@@ -3,12 +3,20 @@ import { useState } from 'react';
 import { Home, TicketCheck, PlusCircle, Wallet, User } from 'lucide-react';
 import Link from 'next/link';
 import { connectWallet } from '@/wallet/connect';
+import { useAuth } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
 
 const CyberHeader = () => {
   const [isWalletConnected, setIsWalletConnected] = useState(false);
+  const auth = useAuth();
+  const router = useRouter();
 
   const handleWalletConnect = async () => {
     try {
+      if(!auth.isSignedIn) {
+        router.push('/sign-in');
+        return;
+      }
       await connectWallet();
       setIsWalletConnected(true);
     } catch (error) {
