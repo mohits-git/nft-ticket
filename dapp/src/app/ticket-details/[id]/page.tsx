@@ -12,7 +12,7 @@ import { useParams } from 'next/navigation';
 import { mockTickets } from '@/utils/mockTicketData';
 import { eventMockData } from '@/utils/mockEventsData';
 import { Ticket, Event } from '@/utils/types';
-
+import Image from 'next/image';
 const TicketDetails: React.FC = () => {
   const [ticket, setTicket] = useState<Ticket | null>(null);
   const [event, setEvent] = useState<Event | null>(null);
@@ -85,7 +85,7 @@ const TicketDetails: React.FC = () => {
 
         {/* Ticket Image */}
         <div className="relative w-full h-64 mb-6 rounded-lg overflow-hidden">
-          <img
+          <Image
             src={ticket.ticketImage || event.imageUrl}
             alt={`${event.name} ticket`}
             className="w-full h-full object-cover brightness-75"

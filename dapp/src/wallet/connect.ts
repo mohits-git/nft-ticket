@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import { EthereumProvider } from "hardhat/types"
 
-function getEth(): EthereumProvider {
+export default function getEth(): EthereumProvider {
   // @ts-expect-error window is not defined
   const eth = window.ethereum as EthereumProvider;
   if (!eth) {
@@ -49,8 +49,4 @@ export async function connectWallet() {
   }
 }
 
-export async function getWalletAddress() {
-  const eth = getEth();
-  const accounts = (await eth.request({ method: "eth_accounts" })) as string[];
-  return accounts[0];
-}
+

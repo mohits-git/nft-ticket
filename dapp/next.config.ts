@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
         search: '',
       },
     ],
+    domains: ['img.clerk.com']
   },
 };
 

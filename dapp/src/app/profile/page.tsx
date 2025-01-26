@@ -1,13 +1,12 @@
 "use client"
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { userMockData } from '../../utils/mockUserData'
 import {
-  ClerkProvider,
   SignInButton,
   SignedIn,
   SignedOut,
-  UserButton
+  UserButton,
 } from '@clerk/nextjs'
 import {
   User as UserIcon,
@@ -17,19 +16,37 @@ import {
   ArrowRight
 } from 'lucide-react';
 import Link from "next/link";
-
-
+import { useUser } from "@clerk/nextjs";
 import { Ticket } from "@/utils/types";
-import { User } from "@/utils/types";
+import getEth from '../../wallet/connect'
 
 interface ProfileProps {
-  user?: User;
+  user?:{
+    totalTickets: number;
+    joinedDate: Date;
+    tickets: Ticket[];
+  };
 }
 
 
 const Profile: React.FC<ProfileProps> = ({ user = userMockData }) => {
   const [activeTicketTab, setActiveTicketTab] = useState<'upcoming' | 'expired'>('upcoming');
-
+  const [walletAddress, setWalletAddress] = useState<string>();
+  async function getWalletAddress() {
+    const eth = getEth();
+    const accounts = (await eth.request({ method: "eth_accounts" })) as string[];
+    setWalletAddress(accounts[0]);
+  }
+  useEffect(()=>{
+    getWalletAddress();
+  })
+  
+  const userInfo = useUser();
+  const userData = userInfo.user;
+  const name = userData?.fullName;
+  const email = userData?.emailAddresses[0]?.emailAddress;
+  const profilePicture = userData?.imageUrl;
+  console.log(walletAddress);
   if (!user) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center font-['Orbitron']">
@@ -38,7 +55,7 @@ const Profile: React.FC<ProfileProps> = ({ user = userMockData }) => {
     );
   }
 
-  const { name, email, walletAddress, profilePicture, totalTickets, joinedDate, tickets } = user;
+  const { totalTickets, joinedDate, tickets } = user;
 
   const filteredTickets = tickets.filter(ticket => ticket.status === activeTicketTab);
 
@@ -49,11 +66,12 @@ const Profile: React.FC<ProfileProps> = ({ user = userMockData }) => {
         <div className="flex items-center space-x-6 mb-8">
           <div className="relative w-32 h-32 border-4 border-blue-400 rounded-full">
             <Image
-              src={profilePicture || "/images/default-profile.png"}
+              src={profilePicture ? profilePicture:'/images/profile'}
               alt={`${name}'s profile`}
               fill
               className="rounded-full object-cover"
             />
+            
           </div>
           <div>
             <h1 className="text-4xl font-bold mb-2 text-pink-400">{name}</h1>

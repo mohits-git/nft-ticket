@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Calendar, MapPin, DollarSign } from 'lucide-react';
 import {eventMockData} from '../../utils/mockEventsData'
-import BuyTicket from '@/components/BuyTicket';
 // Event interface to define event structure
 import { Event } from '@/utils/types';
 import Link from 'next/link';
