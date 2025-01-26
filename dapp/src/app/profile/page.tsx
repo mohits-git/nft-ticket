@@ -82,12 +82,8 @@ const Profile: React.FC<ProfileProps> = ({ user = userMockData }) => {
           </div>
           <div className="align-right">
 
-            <SignedOut>
-              <SignInButton />
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
+            
+            
           </div>
         </div>
 

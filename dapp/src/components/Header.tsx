@@ -1,9 +1,9 @@
 "use client"
 import { useEffect, useState } from 'react';
-import { Home, TicketCheck, PlusCircle, Wallet, User } from 'lucide-react';
+import { Home, TicketCheck, PlusCircle, Wallet, LogIn } from 'lucide-react';
 import Link from 'next/link';
 import { connectWallet, hasAccounts } from '@/wallet/connect';
-import { useAuth } from '@clerk/nextjs';
+import {  useAuth, UserButton } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
@@ -89,16 +89,26 @@ const CyberHeader = () => {
               <span>{isWalletConnected ? 'Connected' : 'Connect Wallet'}</span>
             </button>
 
-            <Link
-              href='/profile'
-              className="text-cyan-300 hover:text-cyan-100 flex items-center space-x-2
-                         hover:drop-shadow-[0_0_5px_rgba(34,211,238,0.7)] transition-all duration-300"
-            >
-              <User className="h-5 w-5" />
-              <span>Profile</span>
-            </Link>
+             
+              
+            {auth.isSignedIn?
+                <>
+                  <Link href='/profile'
+                  className="text-cyan-300 hover:text-cyan-100 flex items-center space-x-2
+                      hover:drop-shadow-[0_0_5px_rgba(34,211,238,0.7)] transition-all duration-300" >
+                    <UserButton />
+                    <span>Profile</span>
+                  </Link>
+                </>
+            :    
+                <>
+                <Link href='/sign-in'>
+                  <LogIn/>
+                  <span>Sign in</span>
+                </Link>
+                </>
+              }              
           </div>
-
           {/* Mobile Menu Button */}
           <div className="-mr-2 flex md:hidden">
             <button

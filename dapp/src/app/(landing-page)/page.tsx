@@ -1,5 +1,5 @@
 "use client"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { 
   TicketCheck, 
   ShieldCheck, 
@@ -11,9 +11,13 @@ import {
   Zap
 } from 'lucide-react';
 import Link from 'next/link';
+import { useAuth } from '@clerk/nextjs';
 
 export default function Home() {
+  const { isSignedIn } = useAuth();
   const [activeTab, setActiveTab] = useState('about');
+  
+  
 
   const features = [
     {
@@ -66,6 +70,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-black via-gray-900 to-black text-white font-['Orbitron']">
+      
       {/* Hero Section with Dynamic Background */}
       <section className="relative flex-grow flex items-center justify-center p-6 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-pink-900/30 to-cyan-900/30 animate-pulse"></div>
@@ -187,13 +192,18 @@ export default function Home() {
             NFTicket offers an unprecedented digital experience that transcends traditional boundaries.
           </p>
           <div className="flex justify-center gap-6">
-            <Link href="/sign-in" className="bg-pink-600 text-white px-10 py-4 rounded-xl 
-              flex items-center gap-3
-              hover:bg-pink-700 transition duration-300
-              transform hover:-translate-y-2 hover:scale-110
-              shadow-2xl shadow-pink-500/50">
-              Get Started <ArrowRight className="inline" />
-            </Link>
+            {!isSignedIn ? (
+              <Link 
+                href="/sign-in" 
+                className="bg-pink-600 text-white px-10 py-4 rounded-xl 
+                  flex items-center gap-3
+                  hover:bg-pink-700 transition duration-300
+                  transform hover:-translate-y-2 hover:scale-110
+                  shadow-2xl shadow-pink-500/50"
+              >
+                Get Started <ArrowRight className="inline" />
+              </Link>
+            ) : null}
             <Link href="/learn-more" className="bg-cyan-500/30 text-cyan-300 px-10 py-4 rounded-xl
               hover:bg-cyan-500/50 transition duration-300
               transform hover:-translate-y-2 hover:scale-110
