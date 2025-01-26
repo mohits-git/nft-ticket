@@ -1,11 +1,11 @@
 "use client"
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { 
-  Calendar, 
-  MapPin, 
-  DollarSign, 
-  Clock, 
+import {
+  Calendar,
+  MapPin,
+  DollarSign,
+  Clock,
   Users,
 } from 'lucide-react';
 import { eventMockData } from '../../../utils/mockEventsData';
@@ -17,13 +17,14 @@ interface EventDetailProps {
 }
 import BuyTicket from '@/components/BuyTicket';
 import { Event } from '@/utils/types';
+
 const EventDetailPage: React.FC<EventDetailProps> = () => {
-    const params = useParams<{id: string}>();
-    const eventId = params.id; 
+  const params = useParams<{ id: string }>();
+  const eventId = params.id;
   const [quantity, setQuantity] = useState(1);
-  
+
   // Find event by ID from URL params
-  const event:Event|undefined = eventMockData.find(e => e.id === eventId);
+  const event: Event | undefined = eventMockData.find(e => e.id === eventId);
 
   if (!event) {
     return (
@@ -87,14 +88,14 @@ const EventDetailPage: React.FC<EventDetailProps> = () => {
           {!event.expired ? (
             <div className="space-y-4">
               <div className="flex items-center space-x-4">
-                <button 
+                <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
                   className="bg-gray-800 text-white px-4 py-2 rounded-lg"
                 >
                   -
                 </button>
                 <span className="text-xl">{quantity}</span>
-                <button 
+                <button
                   onClick={() => setQuantity(Math.min(event.availableTickets, quantity + 1))}
                   className="bg-gray-800 text-white px-4 py-2 rounded-lg"
                 >
