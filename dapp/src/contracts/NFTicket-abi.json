@@ -217,19 +217,7 @@
                 {
                     "indexed": false,
                     "internalType": "string",
-                    "name": "name",
-                    "type": "string"
-                },
-                {
-                    "indexed": false,
-                    "internalType": "string",
-                    "name": "date",
-                    "type": "string"
-                },
-                {
-                    "indexed": false,
-                    "internalType": "string",
-                    "name": "location",
+                    "name": "metadataURI",
                     "type": "string"
                 },
                 {
@@ -409,17 +397,7 @@
             "inputs": [
                 {
                     "internalType": "string",
-                    "name": "name",
-                    "type": "string"
-                },
-                {
-                    "internalType": "string",
-                    "name": "date",
-                    "type": "string"
-                },
-                {
-                    "internalType": "string",
-                    "name": "location",
+                    "name": "metadataURI",
                     "type": "string"
                 },
                 {
@@ -450,17 +428,7 @@
             "outputs": [
                 {
                     "internalType": "string",
-                    "name": "name",
-                    "type": "string"
-                },
-                {
-                    "internalType": "string",
-                    "name": "date",
-                    "type": "string"
-                },
-                {
-                    "internalType": "string",
-                    "name": "location",
+                    "name": "metadataURI",
                     "type": "string"
                 },
                 {
@@ -482,6 +450,46 @@
                     "internalType": "address",
                     "name": "organizer",
                     "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "getAllEvents",
+            "outputs": [
+                {
+                    "components": [
+                        {
+                            "internalType": "string",
+                            "name": "metadataURI",
+                            "type": "string"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "price",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "maxTickets",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "ticketsSold",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "organizer",
+                            "type": "address"
+                        }
+                    ],
+                    "internalType": "struct NFTicket.Event[]",
+                    "name": "",
+                    "type": "tuple[]"
                 }
             ],
             "stateMutability": "view",
@@ -520,17 +528,7 @@
                     "components": [
                         {
                             "internalType": "string",
-                            "name": "name",
-                            "type": "string"
-                        },
-                        {
-                            "internalType": "string",
-                            "name": "date",
-                            "type": "string"
-                        },
-                        {
-                            "internalType": "string",
-                            "name": "location",
+                            "name": "metadataURI",
                             "type": "string"
                         },
                         {
@@ -611,11 +609,6 @@
                     "internalType": "uint256",
                     "name": "eventId",
                     "type": "uint256"
-                },
-                {
-                    "internalType": "string",
-                    "name": "tokenURI",
-                    "type": "string"
                 }
             ],
             "name": "mintTicket",
