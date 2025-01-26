@@ -94,13 +94,13 @@ async function fetchAllEvents() {
 
     // Process events
     const formattedEvents = events.map((event: ContractEvent, index: number) => {
-      const availableTickets = BigInt(event.maxTickets) - BigInt(event.ticketsSold);
+      const availableTickets = Number(event.maxTickets) - Number(event.ticketsSold);
       return {
         id: index,
         metadataURI: event.metadataURI,
         price: ethers.formatEther(event.price), // Convert price from wei to ETH
         maxTickets: event.maxTickets.toString(),
-        ticketsAvailable: availableTickets.toString(),
+        availableTickets: availableTickets.toString(),
         organizer: event.organizer
       }
     });
@@ -142,4 +142,27 @@ export async function getAllEventDetails() {
 
   console.log("Detailed Events:", eventDetails);
   return eventDetails;
+}
+
+export async function getEventDetails(eventId: number) {
+  try {
+    // Call the getAllEvents function from the smart contract
+    const { provider } = await connectWallet();
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);
+    const event = await contract.getEventDetails(BigInt(eventId));
+    const availableTickets = Number(event.maxTickets) - Number(event.ticketsSold);
+    const metadata = await fetchEventMetadata(event.metadataURI);
+    if (!metadata) return null;
+    console.log("Event Details Page");
+    console.log(event)
+    console.log("--------------------------");
+    return {
+      ...event,
+      ...metadata,
+      availableTickets: availableTickets,
+    };
+  } catch (error) {
+    console.log(error)
+    return null;
+  }
 }
