@@ -126,7 +126,7 @@ const EventDetailPage: React.FC<EventDetailProps> = () => {
                   +
                 </button>
               </div>
-              <BuyTicket event={event} />
+              <BuyTicket event={event} eventId={eventId} />
             </div>
           ) : (
             <div className="bg-red-500/20 border border-red-500 p-4 rounded-lg">

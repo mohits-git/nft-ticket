@@ -2,6 +2,7 @@ import { ethers } from "ethers";
 import { abi as CONTRACT_ABI } from "./NFTicket-abi.json";
 import { Event } from "@/utils/types";
 import { connectWallet } from "@/wallet/connect";
+import { toast } from "sonner";
 
 const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS ?? '';
 
@@ -166,3 +167,32 @@ export async function getEventDetails(eventId: number) {
     return null;
   }
 }
+
+export async function buyTicket(eventId: string, ticketPrice: number) {
+  try {
+    // Connect to the user's wallet
+    const { signer } = await connectWallet();
+
+    // Get the contract instance
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+
+    console.log("Buying ticket for event:", eventId);
+    // Call the mintTicket function
+    const tx = await contract.mintTicket(eventId, {
+      value: ethers.parseEther(ticketPrice.toString()), // Send ticket price in ETH
+    });
+
+    console.log("Transaction sent:", tx.hash);
+
+    // Wait for the transaction to be confirmed
+    const receipt = await tx.wait();
+    console.log("Transaction confirmed:", receipt);
+
+    toast.success("Ticket purchased successfully!");
+  } catch (error) {
+    // @ts-expect-error error is an object
+    toast.error("Failed to purchase ticket. Please try again.", error.message);
+    throw error;
+  }
+}
+
