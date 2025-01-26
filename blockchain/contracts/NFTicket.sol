@@ -10,9 +10,7 @@ contract NFTicket is ERC721URIStorage, Ownable {
     address public platformWallet;
 
     struct Event {
-        string name;
-        string date;
-        string location;
+        string metadataURI;
         uint256 price;
         uint256 maxTickets;
         uint256 ticketsSold;
@@ -23,7 +21,7 @@ contract NFTicket is ERC721URIStorage, Ownable {
     mapping(uint256 => uint256) public ticketToEvent;
     mapping(address => bool) public approvedOrganizers;
 
-    event EventCreated(uint256 eventId, string name, string date, string location, uint256 price, uint256 maxTickets, address organizer);
+    event EventCreated(uint256 eventId, string metadataURI, uint256 price, uint256 maxTickets, address organizer);
     event TicketMinted(uint256 ticketId, address owner, uint256 eventId);
 
     constructor(address initialOwner) ERC721("NFTicket", "NFTKT") Ownable(initialOwner) {
@@ -55,20 +53,18 @@ contract NFTicket is ERC721URIStorage, Ownable {
     }
 
     function createEvent(
-        string memory name,
-        string memory date,
-        string memory location,
+        string memory metadataURI,
         uint256 price,
         uint256 maxTickets
     ) public onlyOrganizer {
         uint256 eventId = ticketCounter;
-        events[eventId] = Event(name, date, location, price, maxTickets, 0, msg.sender);
+        events[eventId] = Event(metadataURI, price, maxTickets, 0, msg.sender);
         ticketCounter++;
 
-        emit EventCreated(eventId, name, date, location, price, maxTickets, msg.sender);
+        emit EventCreated(eventId, metadataURI, price, maxTickets, msg.sender);
     }
 
-    function mintTicket(uint256 eventId, string memory tokenURI) public payable {
+    function mintTicket(uint256 eventId) public payable {
         require(eventId < ticketCounter, "Event does not exist");
         Event storage eventDetail = events[eventId];
         require(eventDetail.ticketsSold < eventDetail.maxTickets, "All tickets sold");
@@ -78,11 +74,15 @@ contract NFTicket is ERC721URIStorage, Ownable {
         totalTicketsMinted++;
 
         // Calculate platform fee and organizer share
-        uint256 fee = (msg.value * 1/10) / 100;
+        uint256 fee = (msg.value * 1) / 10; // 10% fee
         uint256 organizerShare = msg.value - fee;
+
         // Pay platform fee and send rest to organizer
         payable(platformWallet).transfer(fee);
         payable(eventDetail.organizer).transfer(organizerShare);
+
+        // Use the event's metadataURI for the ticket
+        string memory tokenURI = eventDetail.metadataURI;
 
         _safeMint(msg.sender, ticketId);
         _setTokenURI(ticketId, tokenURI);
@@ -96,5 +96,13 @@ contract NFTicket is ERC721URIStorage, Ownable {
     function getEventDetails(uint256 eventId) public view returns (Event memory) {
         require(eventId < ticketCounter, "Event does not exist");
         return events[eventId];
+    }
+
+    function getAllEvents() public view returns (Event[] memory) {
+        Event[] memory allEvents = new Event[](ticketCounter);
+        for (uint256 i = 0; i < ticketCounter; i++) {
+            allEvents[i] = events[i];
+        }
+        return allEvents;
     }
 }

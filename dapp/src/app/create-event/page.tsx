@@ -46,6 +46,9 @@ const EventForm: React.FC = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      if (!eventDetails.image) {
+        return toast.error('Please upload an image for the event.');
+      }
       const { signer } = await connectWallet();
       await createEvent(signer, {
         name: eventDetails.name,
@@ -54,7 +57,7 @@ const EventForm: React.FC = () => {
         ticketPrice: Number(eventDetails.ticketPrice),
         description: eventDetails.description,
         totalTickets: Number(eventDetails.totalTickets),
-      });
+      }, eventDetails.image as File);
       setEventDetails({
         name: '',
         date: '',
