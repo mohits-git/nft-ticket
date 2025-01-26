@@ -1,6 +1,9 @@
 "use client"
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { Upload, Calendar, MapPin, DollarSign, Tag } from 'lucide-react';
+import { createEvent } from '@/contracts/contract';
+import { connectWallet } from '@/wallet/connect';
+import { toast } from 'sonner';
 
 // Define the shape of event details
 interface EventDetails {
@@ -42,7 +45,30 @@ const EventForm: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Event Details:', eventDetails);
+    try {
+      const { signer } = await connectWallet();
+      await createEvent(signer, {
+        name: eventDetails.name,
+        date: eventDetails.date,
+        location: eventDetails.location,
+        ticketPrice: Number(eventDetails.ticketPrice),
+        description: eventDetails.description,
+        totalTickets: Number(eventDetails.totalTickets),
+      });
+      setEventDetails({
+        name: '',
+        date: '',
+        location: '',
+        ticketPrice: '',
+        description: '',
+        totalTickets: '',
+        image: null
+      });
+      toast.success('Event created successfully!');
+    } catch (error) {
+      // @ts-expect-error error is an instance of Error
+      toast.error('Error creating event. Please try again.', error.message);
+    }
   };
 
   return (
