@@ -27,7 +27,10 @@ const CyberHeader = () => {
   };
 
   useEffect(() => {
-    if (!auth.isSignedIn) return;
+    if (!auth.isSignedIn) {
+      setIsWalletConnected(false);
+      return;
+    }
     (async () => {
       try {
         const hasA = await hasAccounts();
