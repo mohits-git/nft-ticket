@@ -2,57 +2,57 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Calendar, MapPin, DollarSign } from 'lucide-react';
-import {eventMockData} from '../../utils/mockEventsData'
 // Event interface to define event structure
 import { Event } from '@/utils/types';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import { getAllEventDetails } from '@/contracts/contract';
 
 // EventCard Component
-const EventCard: React.FC<{ event: Event }> = ({ 
-  event,  
+const EventCard: React.FC<{ event: Event }> = ({
+  event,
 }) => {
   return (
     <div className="bg-gray-900 rounded-lg border-2 border-pink-500 overflow-hidden 
       transform transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(236,72,153,0.5)]
       font-['Orbitron']">
       <div className="relative h-48 w-full">
-        <Image 
-          src={event.imageUrl} 
-          alt={event.name} 
-          fill 
+        <Image
+          src={event.imageUrl}
+          alt={event.name}
+          fill
           className="object-cover brightness-75 hover:brightness-100 transition-all"
         />
       </div>
-      
+
       <div className="p-4 space-y-2 text-gray-200">
         <h3 className="text-xl font-bold text-pink-400">{event.name}</h3>
-        
+
         <div className="flex items-center space-x-2 text-gray-400">
           <Calendar className="w-5 h-5 text-blue-400" />
           <span>{new Date(event.date).toLocaleString()}</span>
         </div>
-        
+
         <div className="flex items-center space-x-2 text-gray-400">
           <MapPin className="w-5 h-5 text-green-400" />
           <span>{event.location}</span>
         </div>
-        
+
         <div className="flex items-center space-x-2 text-gray-400">
           <DollarSign className="w-5 h-5 text-purple-400" />
           <span>{event.ticketPrice} ETH</span>
         </div>
-        
+
         <div className="text-sm text-gray-500">
-          Available Tickets: {event.availableTickets}/{event.totalTickets}
+          Total Tickets: {event.totalTickets}
         </div>
         <Link href={`/event-details/${event.id}`}>
-                    <button className="w-full bg-pink-600 text-white py-3 rounded-lg 
+          <button className="w-full bg-pink-600 text-white py-3 rounded-lg 
                   hover:bg-pink-700 transition-colors 
                   disabled:opacity-50 flex items-center justify-center">
-                        View Details <ArrowRight className="ml-2" size={18} />
-                    </button>
-        </Link>        
+            View Details <ArrowRight className="ml-2" size={18} />
+          </button>
+        </Link>
       </div>
     </div>
   );
@@ -66,8 +66,8 @@ const EventGrid: React.FC = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const mockEvents: Event[] = eventMockData
-        setEvents(mockEvents);
+        const allEvents = await getAllEventDetails();
+        setEvents(allEvents);
         setIsLoading(false);
       } catch (error) {
         console.error('Failed to fetch events', error);
@@ -98,9 +98,9 @@ const EventGrid: React.FC = () => {
         {events.filter(event => (
           !event.expired
         )).map(event => (
-          <EventCard 
-            key={event.id} 
-            event={event} 
+          <EventCard
+            key={event.id}
+            event={event}
           />
         ))}
       </div>

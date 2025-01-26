@@ -132,7 +132,7 @@ const EventForm: React.FC = () => {
               onChange={handleInputChange}
               placeholder="Ticket Price (ETH)"
               required
-              step="0.01"
+              step={0.0001}
               min="0"
               className="w-full pl-12 pr-3 py-3 bg-gray-800 text-purple-200 border-2 border-transparent focus:border-purple-500 rounded-lg transition-all duration-300 hover:bg-gray-700"
             />

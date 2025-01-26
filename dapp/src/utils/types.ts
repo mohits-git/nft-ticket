@@ -27,5 +27,6 @@ export type Ticket = {
     expired: boolean,
     totalTickets: number,
     availableTickets: number
+    metadataURI?: string;
   }
   

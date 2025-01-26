@@ -1,14 +1,13 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { 
-  Calendar, 
-  MapPin, 
-  DollarSign, 
-  Clock, 
+import {
+  Calendar,
+  MapPin,
+  DollarSign,
+  Clock,
   Users,
 } from 'lucide-react';
-import { eventMockData } from '../../../utils/mockEventsData';
 import { useParams } from 'next/navigation';
 interface EventDetailProps {
   params: {
@@ -17,18 +16,44 @@ interface EventDetailProps {
 }
 import BuyTicket from '@/components/BuyTicket';
 import { Event } from '@/utils/types';
+import { getEventDetails } from '@/contracts/contract';
+import { toast } from 'sonner';
+
 const EventDetailPage: React.FC<EventDetailProps> = () => {
-    const params = useParams<{id: string}>();
-    const eventId = params.id; 
+  const params = useParams<{ id: string }>();
+  const eventId = params.id;
   const [quantity, setQuantity] = useState(1);
-  
-  // Find event by ID from URL params
-  const event:Event|undefined = eventMockData.find(e => e.id === eventId);
+  const [event, setEvent] = useState<Event | undefined>(undefined);
+  const [loading, setLoading] = useState(true);
+
+  // const event: Event | undefined = eventMockData.find(e => e.id === eventId);
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+      try {
+        const event: Event | undefined = await getEventDetails(Number(eventId));
+        setEvent(event);
+      } catch (error) {
+        // @ts-expect-error invalid type
+        toast.error(error.message);
+      }
+      setLoading(false);
+    })()
+  }, [eventId]);
 
   if (!event) {
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center font-['Orbitron']">
         <p className="text-pink-400 text-2xl">Event not found</p>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center 
+        text-xl text-pink-400 font-['Orbitron']">
+        Loading events...
       </div>
     );
   }
@@ -77,7 +102,7 @@ const EventDetailPage: React.FC<EventDetailProps> = () => {
             <div className="flex items-center space-x-4 text-gray-300">
               <Users className="text-purple-400 w-7 h-7" />
               <span className="text-xl">
-                {event.availableTickets} / {event.totalTickets} Tickets Available
+                {Number(event.availableTickets)} / {Number(event.totalTickets)} Tickets Available
               </span>
             </div>
           </div>
@@ -87,21 +112,21 @@ const EventDetailPage: React.FC<EventDetailProps> = () => {
           {!event.expired ? (
             <div className="space-y-4">
               <div className="flex items-center space-x-4">
-                <button 
+                <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
                   className="bg-gray-800 text-white px-4 py-2 rounded-lg"
                 >
                   -
                 </button>
                 <span className="text-xl">{quantity}</span>
-                <button 
-                  onClick={() => setQuantity(Math.min(event.availableTickets, quantity + 1))}
+                <button
+                  onClick={() => setQuantity(Math.min(Number(event.availableTickets), quantity + 1))}
                   className="bg-gray-800 text-white px-4 py-2 rounded-lg"
                 >
                   +
                 </button>
               </div>
-              <BuyTicket event={event} />
+              <BuyTicket event={event} eventId={eventId} />
             </div>
           ) : (
             <div className="bg-red-500/20 border border-red-500 p-4 rounded-lg">

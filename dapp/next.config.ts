@@ -11,6 +11,13 @@ const nextConfig: NextConfig = {
         pathname: '/*/**',
         search: '',
       },
+      {
+        protocol: 'https',
+        hostname: 'amaranth-eldest-moose-420.mypinata.cloud',
+        port: '',
+        pathname: '/*/**',
+        search: '',
+      }
     ],
     domains: ['img.clerk.com']
   },
