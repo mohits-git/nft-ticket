@@ -9,6 +9,7 @@ async function main() {
   const nfticket = (await NFTicket.deploy(deployer.address)) as NFTicket;
   await nfticket.waitForDeployment();
   console.log("NFTicket deployed to:", await nfticket.getAddress());
+  await nfticket.addOrganizer(deployer.address);
 }
 
 main().then(console.log).catch(console.error);
