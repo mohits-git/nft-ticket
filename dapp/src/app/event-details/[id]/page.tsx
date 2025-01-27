@@ -9,17 +9,12 @@ import {
   Users,
 } from 'lucide-react';
 import { useParams } from 'next/navigation';
-interface EventDetailProps {
-  params: {
-    id: string;
-  };
-}
 import BuyTicket from '@/components/BuyTicket';
 import { Event } from '@/utils/types';
 import { getEventDetails } from '@/contracts/contract';
 import { toast } from 'sonner';
 
-const EventDetailPage: React.FC<EventDetailProps> = () => {
+const EventDetailPage: React.FC = () => {
   const params = useParams<{ id: string }>();
   const eventId = params.id;
   const [quantity, setQuantity] = useState(1);
@@ -57,7 +52,6 @@ const EventDetailPage: React.FC<EventDetailProps> = () => {
       </div>
     );
   }
-
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white font-['Orbitron'] py-12 px-4">

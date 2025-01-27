@@ -3,12 +3,6 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { userMockData } from '../../utils/mockUserData'
 import {
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from '@clerk/nextjs'
-import {
   User as UserIcon,
   Mail,
   Wallet,
@@ -20,16 +14,12 @@ import { useUser } from "@clerk/nextjs";
 import { Ticket } from "@/utils/types";
 import getEth from '../../wallet/connect'
 
-interface ProfileProps {
-  user?:{
+const Profile: React.FC = () => {
+  const user: {
     totalTickets: number;
-    joinedDate: Date;
+    joinedDate: string;
     tickets: Ticket[];
-  };
-}
-
-
-const Profile: React.FC<ProfileProps> = ({ user = userMockData }) => {
+  } = userMockData;
   const [activeTicketTab, setActiveTicketTab] = useState<'upcoming' | 'expired'>('upcoming');
   const [walletAddress, setWalletAddress] = useState<string>();
   async function getWalletAddress() {
@@ -37,10 +27,10 @@ const Profile: React.FC<ProfileProps> = ({ user = userMockData }) => {
     const accounts = (await eth.request({ method: "eth_accounts" })) as string[];
     setWalletAddress(accounts[0]);
   }
-  useEffect(()=>{
+  useEffect(() => {
     getWalletAddress();
   })
-  
+
   const userInfo = useUser();
   const userData = userInfo.user;
   const name = userData?.fullName;
@@ -66,12 +56,12 @@ const Profile: React.FC<ProfileProps> = ({ user = userMockData }) => {
         <div className="flex items-center space-x-6 mb-8">
           <div className="relative w-32 h-32 border-4 border-blue-400 rounded-full">
             <Image
-              src={profilePicture ? profilePicture:'/images/profile'}
+              src={profilePicture ? profilePicture : '/images/profile'}
               alt={`${name}'s profile`}
               fill
               className="rounded-full object-cover"
             />
-            
+
           </div>
           <div>
             <h1 className="text-4xl font-bold mb-2 text-pink-400">{name}</h1>
@@ -82,8 +72,8 @@ const Profile: React.FC<ProfileProps> = ({ user = userMockData }) => {
           </div>
           <div className="align-right">
 
-            
-            
+
+
           </div>
         </div>
 

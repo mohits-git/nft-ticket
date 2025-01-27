@@ -10,7 +10,7 @@ export const userMockData: User = {
   tickets: [
     {
       id: 'TICKET001',
-      eventId:'1',
+      eventId: '1',
       eventName: "Summer Music Festival",
       eventDate: "2024-07-15",
       status: 'upcoming',
@@ -18,7 +18,7 @@ export const userMockData: User = {
     },
     {
       id: 'TICKET002',
-      eventId:'2',
+      eventId: '2',
       eventName: "Tech Conference 2023",
       eventDate: "2023-09-20",
       status: 'expired',
@@ -26,7 +26,7 @@ export const userMockData: User = {
     },
     {
       id: 'TICKET003',
-      eventId:'3',
+      eventId: '3',
       eventName: "Art Exhibition",
       eventDate: "2024-05-10",
       status: 'upcoming',

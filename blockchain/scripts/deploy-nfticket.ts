@@ -4,11 +4,11 @@ import { NFTicket } from "../typechain-types";
 
 async function main() {
   const [deployer] = await ethers.getSigners();
-  console.log(deployer.address);
+  console.log("Deployer public address:", deployer.address);
   const NFTicket = await ethers.getContractFactory("NFTicket");
   const nfticket = (await NFTicket.deploy(deployer.address)) as NFTicket;
   await nfticket.waitForDeployment();
-  console.log("NFTicket deployed to:", await nfticket.getAddress());
+  console.log("(CONTRACT_ADDRESS) NFTicket deployed to:", await nfticket.getAddress());
   await nfticket.addOrganizer(deployer.address);
 }
 
@@ -36,6 +36,7 @@ async function deploy() {
     const eventPrice = ethers.parseEther("5");
     const maxTickets = 5;
 
+  // TODO: change
     await nfticket
       .connect(organizer)
       .createEvent(
@@ -43,7 +44,8 @@ async function deploy() {
         new Date().toLocaleString(),
         "jaipur",
         eventPrice,
-        maxTickets
+        maxTickets,
+        
       );
 
     // Initial balances
@@ -59,7 +61,7 @@ async function deploy() {
     const tokenURI = "https://example.com/metadata.json";
     const tx = await nfticket
       .connect(buyer)
-      .mintTicket(0, tokenURI, { value: eventPrice });
+      .mintTicket(0, { value: eventPrice });
     const receipt = await tx.wait();
     if (!receipt) {
       throw new Error("Transaction failed");

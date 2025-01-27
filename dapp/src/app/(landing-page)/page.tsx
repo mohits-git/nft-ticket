@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { 
   TicketCheck, 
   ShieldCheck, 
@@ -82,7 +82,7 @@ export default function Home() {
           <p className="text-xl md:text-2xl text-gray-200 mb-10 
             drop-shadow-[0_0_15px_rgba(59,130,246,0.4)]">
             NFTicket transforms event participation into a blockchain-powered, collector-driven journey. 
-            More than just entry — we're creating digital memorials of shared experiences.
+            More than just entry — we&apos;re creating digital memorials of shared experiences.
           </p>
           <div className="flex justify-center gap-6">
             <Link href="/event-listing" className="bg-pink-600 text-white px-8 py-4 rounded-xl
@@ -160,7 +160,7 @@ export default function Home() {
                 <p className="max-w-4xl mx-auto text-xl mb-8 leading-relaxed">
                   NFTicket is pioneering a paradigm shift in event experiences by transforming 
                   traditional ticketing into a dynamic, blockchain-powered ecosystem. 
-                  We're not just selling tickets; we're creating digital artifacts that 
+                  We&apos;re not just selling tickets; we&apos;re creating digital artifacts that 
                   capture the essence of memorable moments.
                 </p>
               </div>
@@ -188,7 +188,7 @@ export default function Home() {
             Join the Digital Event Revolution
           </h2>
           <p className="text-2xl text-gray-200 mb-12">
-            Whether you're an innovative event creator or a passionate attendee, 
+            Whether you&apos;re an innovative event creator or a passionate attendee, 
             NFTicket offers an unprecedented digital experience that transcends traditional boundaries.
           </p>
           <div className="flex justify-center gap-6">
