@@ -2,6 +2,12 @@
 
 NFTicket is a decentralized ticketing platform that allows event organizers to create, sell, and manage event tickets on the blockchain. NFTicket leverages the power of non-fungible tokens (NFTs) to create unique, verifiable, and secure tickets that cannot be duplicated or counterfeited. By using NFTs, event organizers can ensure that each ticket is one-of-a-kind and that it represents a specific seat or entry to an event.
 
+**Check out the live demo at [nft-ticket-beta.vercel.app](https://nft-ticket-beta.vercel.app/)**
+
+> Note: The smart contract is deployed on the Sepolia testnet, so you will need testnet ETH to interact with the application.
+> You can switch your metamask network to Sepolia testnet and get testnet ETH from the faucet.
+> You can get testnet ETH for Sepolia testnet from Google Cloud Web3 Faucet: [Ethereum Sepolia Faucet](https://cloud.google.com/application/web3/faucet/ethereum/sepolia)
+
 ## Features
 
 - Create new events by approved organizers only.
@@ -64,6 +70,17 @@ npx hardhat run scripts/deploy.js --network localhost
 ```
 > Copy the smart contract address and add it to your `.env` file in the `dapp` directory.
 > You can also deploy the smart contract to your preferred network by updating the `hardhat.config.js` file.
+
+- To deploy on sepolia testnet, you can run the following command:
+  - First add two environment variables in your terminal:
+    - `export PRIVATE_KEY=<your_private_key>`
+    - `export ALCHEMY_API_KEY=<your_alchemy_api_key>`
+  - Then run the following command:
+
+```bash
+npx hardhat run scripts/deploy.js --network sepolia
+```
+> Or you can configure the network in the `hardhat.config.js` file, with your preferred network settings.
 
 5. Environment variables setup:
 
